@@ -1,6 +1,10 @@
 /*
 Author: Katie McLane
 The purpose of this program is to calculate 
+
+Version History:
+1.0 - Initial release: included string, wood, ribbon, metal, needle, sparkle, bronze, silver, gold, amethyst, pendant, necklace, orb, water, and fire crafting.
+1.1 - Update: added Waterstone, Firestone, Elementstone, and artifact crafting.
 */
 
 #include <iostream>
@@ -238,6 +242,83 @@ int * fireCraft(int count) {
 };
 //int returnArr[5] = {cost, goldCost[1], goldCost[2], goldCost[3], orbCost[1]};
 
+int * waterstoneCraft(int count) {
+	int cost = 1500;
+	if (count > 1) {
+		for (int i = 2; i <= count; i++) {
+			cost += 750 * (i + 1);
+		}
+	}
+	int * waterCost = waterCraft(2 * count);
+	int * ribbonCost = ribbonCraft(10 * count);
+	cost += waterCost[0];
+	cost += ribbonCost[0];
+	int strCost = waterCost[1] + ribbonCost[1];
+	int woodCost = waterCost[2] + ribbonCost[2];
+	static int returnArr[5] = { cost, strCost, woodCost, waterCost[3], waterCost[4] };
+	return returnArr;
+};
+//int returnArr[5] = { cost, strCost, woodCost, waterCost[3], waterCost[4] };
+
+int * firestoneCraft(int count) {
+	int cost = 1500;
+	if (count > 1) {
+		for (int i = 2; i <= count; i++) {
+			cost += 750 * (i + 1);
+		}
+	}
+	int * fireCost = fireCraft(count);
+	int * sparkleCost = sparkleCraft(2 * count);
+	cost += fireCost[0];
+	cost += sparkleCost[0];
+	int strCost = fireCost[1] + sparkleCost[1];
+	int woodCost = fireCost[2] + sparkleCost[2];
+	int rockCost = fireCost[3] + sparkleCost[3];
+	static int returnArr[5] = { cost, strCost, woodCost, rockCost, fireCost[4] };
+	return returnArr;
+};
+//	int returnArr[5] = { cost, strCost, woodCost, rockCost, fireCost[4] };
+
+int * elementCraft(int count) {
+	int cost = 5000;
+	if (count > 1) {
+		for (int i = 2; i <= count; i++) {
+			cost += 2500 * (i + 1);
+		}
+	}
+	int * watersCost = waterstoneCraft(count);
+	int * firesCost = firestoneCraft(6 * count);
+	cost += watersCost[0];
+	cost += firesCost[0];
+	int strCost = watersCost[1] + firesCost[1];
+	int woodCost = watersCost[2] + firesCost[2];
+	int rockCost = watersCost[3] + firesCost[3];
+	int quartzCost = watersCost[4] + firesCost[4];
+	static int returnArr[5] = { cost, strCost, woodCost, rockCost, quartzCost };
+	return returnArr;
+};
+//int returnArr[5] = { cost, strCost, woodCost, rockCost, quartzCost };
+
+int * artifactCraft(int count) {
+	int cost = 10000;
+	if (count > 1) {
+		for (int i = 2; i <= count; i++) {
+			cost += 5000 * (i + 1);
+		}
+	}
+	int * necklaceCost = necklaceCraft(count);
+	int * elementCost = elementCraft(count);
+	cost += necklaceCost[0];
+	cost += elementCost[0];
+	int strCost = necklaceCost[1] + elementCost[1];
+	int woodCost = necklaceCost[2] + elementCost[2];
+	int rockCost = necklaceCost[3] + elementCost[3];
+	int quartzCost = necklaceCost[4] + elementCost[4];
+	static int returnArr[5] = { cost, strCost, woodCost, rockCost, quartzCost };
+	return returnArr;
+};
+//int returnArr[5] = { cost, strCost, woodCost, rockCost, quartzCost };
+
 int main()  {
 	string restartTrig = "";
 	cout << "Welcome to the Cat Game deco calculator!" << endl;
@@ -254,13 +335,15 @@ int main()  {
 		int * resourceArr = {};
 		while (userInput != -1) {
 			cout << "What does your deco need?" << endl;
-			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-			cout << " 1: String    |  2: Wood    |  3: Ribbon" << endl;
-			cout << " 4: Metal     |  5: Needles |  6: Sparkles" << endl;
-			cout << " 7: Bronze    |  8: Silver  |  9: Gold" << endl;
-			cout << "10: Amethyst  | 11: Pendant | 12: Necklace" << endl;
-			cout << "13: Orb       | 14: Water   | 15: Fire" << endl;
-			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+			cout << " 1: String     |  2: Wood      |  3: Ribbon" << endl;
+			cout << " 4: Metal      |  5: Needles   |  6: Sparkles" << endl;
+			cout << " 7: Bronze     |  8: Silver    |  9: Gold" << endl;
+			cout << "10: Amethyst   | 11: Pendant   | 12: Necklace" << endl;
+			cout << "13: Orb        | 14: Water     | 15: Fire" << endl;
+			cout << "16: Waterstone | 17: Firestone | 18: Elementstone" << endl;
+			cout << "                 19: Artifact                    " << endl;
+			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 			cout << "Enter your selection (-1 to finish): ";
 			cin >> userInput;
 			if (userInput == -1) {
@@ -365,6 +448,38 @@ int main()  {
 				totalRock += resourceArr[3];
 				totalQuartz += resourceArr[4];
 				break;
+			case 16: //Waterstone
+				resourceArr = waterstoneCraft(count);
+				totalCost += resourceArr[0];
+				totalCotton += resourceArr[1];
+				totalLog += resourceArr[2];
+				totalRock += resourceArr[3];
+				totalQuartz += resourceArr[4];
+				break;
+			case 17: //Firestone
+				resourceArr = firestoneCraft(count);
+				totalCost += resourceArr[0];
+				totalCotton += resourceArr[1];
+				totalLog += resourceArr[2];
+				totalRock += resourceArr[3];
+				totalQuartz += resourceArr[4];
+				break;
+			case 18: //Elementstone
+				resourceArr = elementCraft(count);
+				totalCost += resourceArr[0];
+				totalCotton += resourceArr[1];
+				totalLog += resourceArr[2];
+				totalRock += resourceArr[3];
+				totalQuartz += resourceArr[4];
+				break;
+			case 19: //Artifact
+				resourceArr = artifactCraft(count);
+				totalCost += resourceArr[0];
+				totalCotton += resourceArr[1];
+				totalLog += resourceArr[2];
+				totalRock += resourceArr[3];
+				totalQuartz += resourceArr[4];
+				break;
 			default:
 				totalCost = totalCost;
 				totalCotton = totalCotton;
@@ -389,7 +504,6 @@ int main()  {
 		cout << "Total Coin Cost (w/o deco cost)  | " << totalCost << endl;
 		cout << "Total Coin Cost (w/ deco cost)   | " << (totalCost + decoCost) << endl;
 		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-		cout << "The feature to calculate another deco is currently broken, please quit and re-open." << endl;
 		cout << "Press Q then ENTER if you are done or press any letter then ENTER to calculate another Deco!" << endl;
 		cin >> restartTrig;
 		system("CLS");
